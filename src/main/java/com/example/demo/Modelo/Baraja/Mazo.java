@@ -8,7 +8,8 @@ package com.example.demo.Modelo.Baraja;
  */
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Random;
+
 import com.example.demo.Modelo.Listas.*;
 
 public class Mazo {
@@ -17,17 +18,7 @@ public class Mazo {
     public Mazo() {
         cartas = new ListaDobleCircular<>();
         llenar(); // crea todas las cartas, excluyendo Jokers
-    }
-
-    /**
-     * Obtiene todas las cartas del mazo.
-     * Aqui se van a aplicar modificaciones parecidas a la clase Mano para retornar las cartas
-     * @return ArrayList con todas las cartas que haya en el mazo.
-     */
-    public ListaSimple<CartaInglesa> getCartas() {
-        ListaSimple<CartaInglesa> pilaAux = new ListaSimple<>();
-
-        return pilaAux;
+        mezclar();
     }
 
     public CartaInglesa obtenerUnaCarta() {
@@ -35,36 +26,38 @@ public class Mazo {
     }
 
     // A lo mejor tendré que reescribir esto
-    private void mezclar(ArrayList<CartaInglesa> cartas) {
-        Collections.shuffle(cartas);
+    private void mezclar() {
+        ListaDobleCircular<CartaInglesa> cartasMezcladas = new ListaDobleCircular<>();
+        Random rnd = new Random();
+        while (!cartas.isEmpty()) {
+            int pos = rnd.nextInt(cartas.getTamano());
+            cartasMezcladas.insertaInicio(cartas.eliminaPosicion(pos));
+        }
+        cartas = cartasMezcladas;
     }
 
     private void llenar() {
         ArrayList<CartaInglesa> listaCartas = new ArrayList<>();
 
-        for (int i = 2; i <=14 ; i++) {
+        for (int i = 1; i <=13 ; i++) {
             for (Palo palo : Palo.values()) {
-                CartaInglesa c = new CartaInglesa(i,palo, palo.getColor());
-                listaCartas.add(c);
+                cartas.insertaFin(new CartaInglesa(i, palo, palo.getColor()));
             }
         }
-        mezclar(listaCartas);
-        insertarCartasAPila(listaCartas);
-
     }
 
-    private void insertarCartasAPila(ArrayList<CartaInglesa> listaDeCartas) {
-        listaDeCartas.forEach(c -> cartas.insertaInicio(c));
+    public boolean isEmpty() {
+        return cartas.isEmpty();
     }
 
-    public void vaciarMazo() {
-        while(!cartas.isEmpty()) {
-            cartas.eliminaInicio();
-        }
+    public int size() {
+        return cartas.getTamano();
     }
 
     @Override
     public String toString() {
-        return getCartas().toString();
+        return cartas.recorrer();
     }
+
+
 }

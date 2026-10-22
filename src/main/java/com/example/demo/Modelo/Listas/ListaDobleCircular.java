@@ -118,7 +118,7 @@ public class ListaDobleCircular<T extends Comparable<? super T>> {
         NodoDoble<T> r = inicio;
         T dato = null;
 
-        while(r.getSiguiente() != inicio) {
+        while(!r.getSiguiente().equals(inicio)) {
             if (r.getSiguiente().getInfo().equals(datoABuscar)) {
                 NodoDoble<T> nodoAEliminar = r.getSiguiente();
                 dato = nodoAEliminar.getInfo();
@@ -254,7 +254,10 @@ public class ListaDobleCircular<T extends Comparable<? super T>> {
                 r = r.getSiguiente();
                 contador++;
             }
-            if (r == fin) insertaFin(dato);
+            if (r == fin) {
+                insertaFin(dato);
+                return;
+            }
             NodoDoble<T> nodoAInsertar = new NodoDoble<>(dato);
             nodoAInsertar.setSiguiente(r.getSiguiente());
             nodoAInsertar.setAnt(r);
