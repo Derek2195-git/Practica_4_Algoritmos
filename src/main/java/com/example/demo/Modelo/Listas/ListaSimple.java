@@ -148,8 +148,7 @@ public class ListaSimple<T> {
 
     public int size() {
         int tamano = 0;
-        Nodo<T> r = inicio;
-        while (r.getSiguiente() != null) {
+        for (Nodo<T> r = inicio; r != null; r = r.getSiguiente()) {
             tamano++;
         }
         return tamano;

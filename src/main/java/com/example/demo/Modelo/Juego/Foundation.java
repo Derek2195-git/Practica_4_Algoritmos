@@ -1,7 +1,6 @@
 package com.example.demo.Modelo.Juego;
 
 import com.example.demo.Modelo.Baraja.CartaInglesa;
-import com.example.demo.Modelo.Baraja.Mazo;
 import com.example.demo.Modelo.Listas.ListaSimple;
 
 public class Foundation {
@@ -18,7 +17,7 @@ public class Foundation {
         return tope.tieneElMismoPalo(carta) && tope.esLaSiguiente(carta);
     }
 
-    public boolean agregar(CartaInglesa carta) {
+    public boolean agregarCarta(CartaInglesa carta) {
         if (!puedeRecibirCarta(carta)) return false;
         cartasContenidas.insertaInicio(carta);
         return true;

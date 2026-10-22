@@ -35,7 +35,7 @@ public class ColumnaCartas {
 
 
     public CartaInglesa verTope() { return cartasContenidas.peekInicio(); }
-    public CartaInglesa quitar() { return cartasContenidas.eliminaInicio(); }
+    public CartaInglesa quitarCarta() { return cartasContenidas.eliminaInicio(); }
     public boolean estaVacia() { return cartasContenidas.isEmpty(); }
     public int getTamano() { return cartasContenidas.size(); }
 
