@@ -3,11 +3,11 @@ package com.example.demo.Modelo.Juego;
 import com.example.demo.Modelo.Listas.ListaSimple;
 
 public class Movimiento {
-    private ListaSimple<EightOff> reservas;
+    private ListaSimple<Reserva> reservas;
     private ListaSimple<ColumnaCartas> columnas;
     private ListaSimple<Foundation> foundations;
 
-    public Movimiento(ListaSimple<EightOff> reservas,
+    public Movimiento(ListaSimple<Reserva> reservas,
                       ListaSimple<ColumnaCartas> columnas,
                       ListaSimple<Foundation> foundations) {
         this.reservas = reservas;
@@ -15,7 +15,7 @@ public class Movimiento {
         this.foundations = foundations;
     }
 
-    public ListaSimple<EightOff> getReservas() {
+    public ListaSimple<Reserva> getReservas() {
         return reservas;
     }
 

@@ -8,7 +8,7 @@ package com.example.demo.Modelo.Baraja;
 // Clases extraidas del mismo repositorio de la práctica 1
 public abstract class Carta implements Comparable<Carta> {
     private int valor;
-    protected Palo palo;
+    private Palo palo;
     private String color;
 
     /**
