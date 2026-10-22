@@ -1,6 +1,6 @@
 package com.example.demo.Modelo.Listas;
 
-public class ListaDobleCircular<T extends Comparable<T>> {
+public class ListaDobleCircular<T extends Comparable<? super T>> {
     private NodoDoble<T> inicio;
     private NodoDoble<T> fin;
 

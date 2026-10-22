@@ -95,29 +95,17 @@ public class ListaSimple<T> {
     // 2. Eliminar posicion. Recibe un nmero entero; esta es la posición que vamos a eliminar.
     // Regresa el dato eliminado o null en caso de no encontrarlo
     public T eliminarPosicion(int posicion) {
-        if (inicio == null) return null;
-        else {
-            T dato;
-            if (inicio.getSiguiente() == null) {
-                dato = inicio.getInfo();
-                inicio = null;
-                return dato;
-            } else {
-                Nodo<T> r = inicio;
-                Nodo<T> a = r;
-                int contador = 0;
-                while(r.getSiguiente() != null && contador != posicion) {
-                    a = r;
-                    r = r.getSiguiente();
-                    contador++;
-                }
-                dato = r.getInfo();
-                if (r == inicio) inicio = inicio.getSiguiente();
-                else a.setSiguiente(r.getSiguiente());
-
-                return dato;
-            }
+        if (inicio == null || posicion < 0) return null;
+        if (posicion == 0) return eliminaInicio();
+        Nodo<T> a = inicio;
+        Nodo<T> r = inicio.getSiguiente();
+        int contador = 1;
+        while (r != null && contador < posicion) {
+            a = r; r = r.getSiguiente(); contador++;
         }
+        if (r == null) return null;
+        a.setSiguiente(r.getSiguiente());
+        return r.getInfo();
     }
 
     public boolean eliminarDato(T dato) {
@@ -144,6 +132,19 @@ public class ListaSimple<T> {
         }
     }
 
+    public T peekInicio() {
+        if (inicio == null) return null;
+        else return inicio.getInfo();
+    }
+
+    public int size() {
+        int tamano = 0;
+        Nodo<T> r = inicio;
+        while (r.getSiguiente() != null) {
+            tamano++;
+        }
+        return tamano;
+    }
 
 
 
@@ -163,6 +164,8 @@ public class ListaSimple<T> {
     public boolean isEmpty() {
         return (inicio == null);
     }
+
+
 
 
 }

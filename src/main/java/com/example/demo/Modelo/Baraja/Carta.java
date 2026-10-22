@@ -5,15 +5,14 @@ package com.example.demo.Modelo.Baraja;
  * @author (Cecilia Curlango Rosas)
  * @version (2025-2)
  */
+// Clases extraidas del mismo repositorio de la práctica 1
 public abstract class Carta implements Comparable<Carta> {
     private int valor;
     protected Palo palo;
     private String color;
-    private int valorBajo;
-    private boolean faceup;
 
     /**
-     * Crea una carta que no se ve su contenido.
+     * Crea una carta
      * @param valor
      * @param palo
      * @param color
@@ -22,44 +21,15 @@ public abstract class Carta implements Comparable<Carta> {
         this.valor = valor;
         this.palo = palo;
         this.color = color;
-        if (valor == 14) {
-            valorBajo = 1;
-        } else {
-            valorBajo = valor;
-        }
-
-        faceup = false;
     }
 
-    /**
-     * Voltea una carta para que NO se vea su contenido.
-     */
-    public void makeFaceDown() {
-        faceup = false;
-    }
-    /**
-     * Voltea una carta para que se vea su contenido.
-     */
-    public void makeFaceUp() {
-        faceup = true;
-    }
-    /**
-     * Indica si se ve la cara de la carta
-     * @return true si se ve, false si está volteada
-     */
-    public boolean isFaceup() {
-        return faceup;
-    }
+
     public String toString() {
-        if (!faceup) {
-            return "@";
-        }
         return switch (valor) {
-            case 14 -> "A" + palo.getFigura();
+            case 1 -> "A" + palo.getFigura();
             case 11 -> "J"+ palo.getFigura();
             case 12 -> "Q" + palo.getFigura();
             case 13 -> "K" + palo.getFigura();
-            case 15-> "Joker";
             default -> ""+ valor + palo.getFigura();
         };
     }
@@ -67,18 +37,12 @@ public abstract class Carta implements Comparable<Carta> {
     public boolean tieneElMismoValor(Carta carta) {
         return valor == carta.valor;
     }
-    public boolean tieneElMismoPalo(Palo palo) {
-        return this.palo.equals(palo);
+    public boolean tieneElMismoPalo(Carta carta) {
+        return this.palo.equals(carta.getPalo());
     }
     public boolean esLaSiguiente(Carta carta) {
-        if (valor+1 == carta.valor) {
-            return true;
-        }
-        // verificar si es un As y un 2
-        if (valor == 14 && carta.valor == 2) {
-            return true;
-        }
-        return false;
+        if (valor+1 == carta.valor) return true;
+        else return false;
     }
 
     public int getValor() {
@@ -90,7 +54,23 @@ public abstract class Carta implements Comparable<Carta> {
     public String getColor() {
         return color;
     }
-    public int getValorBajo() {
-        return valorBajo;
+
+    /**
+     * Compara dos cartas entre si y revisa si es igual o diferente a la otra
+     * @param obj Objeto al que compararemos nuestra carta
+     * @return booleano que indica si es diferente o igual a nuestra carta
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Carta)) return false;
+        Carta otra = (Carta) obj;
+        return valor == otra.getValor() &&
+                palo == otra.getPalo();
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * valor + palo.hashCode();
     }
 }

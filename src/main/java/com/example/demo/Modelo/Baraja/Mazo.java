@@ -12,12 +12,11 @@ import java.util.Collections;
 import com.example.demo.Modelo.Listas.*;
 
 public class Mazo {
-    private ListaSimple<CartaInglesa> cartas;
+    private ListaDobleCircular<CartaInglesa> cartas;
 
     public Mazo() {
-        cartas = new ListaSimple<>();
+        cartas = new ListaDobleCircular<>();
         llenar(); // crea todas las cartas, excluyendo Jokers
-        // Se quitó el metodo mezclar() para aprovecharlo mejor en el metodo llenar()
     }
 
     /**
