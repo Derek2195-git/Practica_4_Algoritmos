@@ -108,6 +108,17 @@ public class Solitario {
 
     // Todo: hacer metodos de pista, undo y acabar el juego si no hay movimientos posibles
 
+    public ColumnaCartas getColumna(int indice) {
+        return columnas[indice];
+    }
+
+    public Reserva getReserva(int indice) {
+        return reservas[indice];
+    }
+
+    public Foundation getFoundation(int indice) {
+        return foundations[indice];
+    }
 
 
 }
