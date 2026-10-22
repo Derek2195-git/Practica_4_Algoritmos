@@ -108,6 +108,15 @@ public class ListaSimple<T> {
         return r.getInfo();
     }
 
+    public T obtenerX(int indice) {
+        if (indice < 0) return null;
+        Nodo<T> r = inicio;
+        for (int i = 0; i < indice && r != null; i++) {
+            r = r.getSiguiente();
+        }
+        return r == null ? null : r.getInfo();
+    }
+
     public boolean eliminarDato(T dato) {
         if (inicio == null) return false;
         else {
@@ -164,6 +173,8 @@ public class ListaSimple<T> {
     public boolean isEmpty() {
         return (inicio == null);
     }
+
+
 
 
 
