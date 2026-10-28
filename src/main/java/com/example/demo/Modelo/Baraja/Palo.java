@@ -7,10 +7,10 @@ package com.example.demo.Modelo.Baraja;
  * @version (2025-1)
  */
 public enum Palo {
-    TREBOL(1,"♣\uFE0E","negro"),
-    DIAMANTE(2,"♦\uFE0F","rojo"),
-    CORAZON(3,"❤\uFE0F","rojo"),
-    PICA(4,"♠\uFE0F","negro");
+    TREBOL(1,"TREBOL","negro"),
+    DIAMANTE(2,"DIAMANTE","rojo"),
+    CORAZON(3,"CORAZON","rojo"),
+    PICA(4,"PICA","negro");
 
     private final int peso;
     private final String figura;

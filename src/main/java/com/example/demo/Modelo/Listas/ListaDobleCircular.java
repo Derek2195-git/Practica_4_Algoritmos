@@ -182,7 +182,7 @@ public class ListaDobleCircular<T extends Comparable<? super T>> {
     public void eliminarPares() {
         NodoDoble<T> r = inicio;
         while (r != fin) {
-            if ( r.getInfo() instanceof Integer && (int) r.getInfo() % 2 == 0) {
+            if (r.getInfo() instanceof Integer && (Integer)(Object) r.getInfo() % 2 == 0) {
                 if (r == inicio) eliminaInicio();
                 else {
                     r.getAnt().setSiguiente(r.getSiguiente());
@@ -194,7 +194,7 @@ public class ListaDobleCircular<T extends Comparable<? super T>> {
         }
 
         if (r == fin) {
-            if (r.getInfo() instanceof Integer && (int) r.getInfo() % 2 == 0) {
+            if (r.getInfo() instanceof Integer && (Integer)(Object) r.getInfo() % 2 == 0) {
                 r.getAnt().setSiguiente(r.getSiguiente());
                 r.getSiguiente().setAnt(r.getAnt());
             }
