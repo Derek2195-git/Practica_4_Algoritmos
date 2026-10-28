@@ -30,11 +30,7 @@ public class ColumnaGUI extends Pane {
         Button hueco = new Button();
         hueco.setPrefSize(CartaGUI.ANCHO, CartaGUI.ALTO);
         hueco.setFocusTraversable(false);
-        hueco.setBackground(new Background(new BackgroundFill(
-                Color.rgb(255, 255, 255, 0.08), new CornerRadii(8), Insets.EMPTY)));
-        hueco.setBorder(new Border(new BorderStroke(
-                Color.rgb(255, 255, 255, 0.5), BorderStrokeStyle.DASHED,
-                new CornerRadii(8), new BorderWidths(2))));
+        hueco.getStyleClass().add("ranura-carta");
         hueco.setOnAction(e -> alHacerClic.accept(indice));
         return hueco;
     }

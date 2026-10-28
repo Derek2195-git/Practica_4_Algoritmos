@@ -16,7 +16,9 @@ public class HelloApplication extends Application {
         VentanaJuego ventana = new VentanaJuego(juego);
 
         stage.setTitle("Eight Off (prototipo)");
-        stage.setScene(new Scene(ventana.getRaiz()));
+        Scene escena = new Scene(ventana.getRaiz());
+        escena.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+        stage.setScene(escena);
         stage.show();
     }
 }
