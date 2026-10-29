@@ -2,8 +2,11 @@ package com.example.demo.Controlador;
 
 import com.example.demo.Modelo.Juego.Solitario;
 import com.example.demo.Modelo.ZonaJuego;
+import com.example.demo.Vista.Ventanas.VentanaInicio;
 import com.example.demo.Vista.Ventanas.VentanaJuego;
 import javafx.application.Platform;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -17,7 +20,21 @@ public class Controlador {
 
     public Controlador(Stage stage) {
         this.stage = stage;
-        juego = new Solitario(false);
+        stage.setTitle("Menu principal");
+    }
+
+    public void iniciar() {
+        VentanaInicio ventanaInicio = new VentanaInicio();
+        ventanaInicio.alJugar(this::empezarPartida);
+        ventanaInicio.alSalir(Platform::exit);
+
+        mostrar(ventanaInicio.getVentana());
+    }
+
+    public void empezarPartida() {
+        juego = new Solitario(true);
+        origenTipo = null;
+        origenIndice = -1;
         ventana = new VentanaJuego(juego,
                 i -> alHacerClick(ZonaJuego.COLUMNA, i),
                 i -> alHacerClick(ZonaJuego.RESERVA, i),
@@ -26,13 +43,14 @@ public class Controlador {
         ventana.getSeccionOpciones().setOnDeshacer(this::manejarUndo);
         ventana.getSeccionOpciones().setOnPista(this::manejarPista);
         ventana.getSeccionOpciones().setOnSalir(this::manejarSalir);
+
+        mostrar(ventana.getRaiz());
     }
 
-    public void iniciar() {
-        Scene escena = new Scene(ventana.getRaiz(), 800, 600);
+    public void mostrar(Parent ventana) {
+        Scene escena = new Scene(ventana, 800, 600);
         escena.getStylesheets().add("/estilos.css");
 
-        stage.setTitle("Solitario Eight Off");
         stage.setScene(escena);
         stage.show();
     }
@@ -111,16 +129,16 @@ public class Controlador {
     }
 
     private void manejarUndo() {
-        ventana.mostrarMensaje("Falta de implementar");
-    }
-
-    private void manejarPista() {
         // TODO: Deshacer el movimiento
         ventana.mostrarMensaje("Falta de implementar");
     }
 
-    private void manejarSalir() {
+    private void manejarPista() {
         // TODO: Pedir la pista
-        Platform.exit();
+        ventana.mostrarMensaje("Falta de implementar");
+    }
+
+    private void manejarSalir() {
+        iniciar();
     }
 }

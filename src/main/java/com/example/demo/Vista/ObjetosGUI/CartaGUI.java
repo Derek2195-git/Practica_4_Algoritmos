@@ -39,11 +39,11 @@ public class CartaGUI extends ImageButton {
     }
 
     public void setSeleccionada(boolean seleccionada) {
-        cambiarContorno(seleccionada ? Color.GOLD : null);
+        cambiarContorno(seleccionada ? Color.rgb(80, 250, 123) : null);
     }
 
     public void setPista(boolean pista) {
-        cambiarContorno(pista ? Color.CYAN : null);
+        cambiarContorno(pista ? Color.rgb(139, 233, 253) : null);
     }
 
     public void cambiarContorno(Color color) {

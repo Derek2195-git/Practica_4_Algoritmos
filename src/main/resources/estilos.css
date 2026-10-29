@@ -1,9 +1,16 @@
+@font-face {
+    src: url("recursos/Pixelham-Bold.ttf");
+}
 
+.tituloJuego {
+    -fx-font-family: "Pixelham Bold";
+    -fx-font-size: 20px;
+}
 
 .ranura-carta {
-    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-color: #282a36;
     -fx-background-radius: 8;
-    -fx-border-color: rgba(255, 255, 255, 0.5);
+    -fx-border-color: #bd93f9;
     -fx-border-style: dashed;
     -fx-border-width: 2;
     -fx-border-radius: 8;
@@ -11,18 +18,20 @@
 }
 
 .ranura-carta:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.16);
+    -fx-background-color: #44475a;
 }
 
 .barra-opciones {
-    -fx-background-color: rgba(0,0,0,35);
-    -fx-background-radius: 8;
+    -fx-background-color: #44475a;
+    -fx-border-color: #44475a;
+    -fx-border-width: 0 0 2 0;
+
 }
 
 .boton-juego {
-    -fx-background-color: #f4e1b0;
+    -fx-background-color: #bd93f9;
     -fx-background-radius: 8;
-    -fx-text-fill: #3b2a14;
+    -fx-text-fill: #f8f8f2;
     -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-padding: 6 16 6 16;
@@ -30,7 +39,7 @@
 }
 
 .boton-juego:hover {
-    -fx-background-color: #ffeec2;
+    -fx-background-color: #b087f1;
 }
 
 .mensaje {

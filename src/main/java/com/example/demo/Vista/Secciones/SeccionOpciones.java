@@ -22,7 +22,9 @@ public class SeccionOpciones extends HBox {
         labelJuego = new Label();
 
         setAlignment(Pos.CENTER_LEFT);
-        setPadding(new Insets(8, 20, 8, 20));
+        setPadding(new Insets(0, 20, 0, 20));
+        setPrefHeight(60);
+        setMinHeight(60);
 
         getStyleClass().add("barra-opciones");
         botonDeshacer.getStyleClass().add("boton-juego");

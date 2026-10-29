@@ -33,15 +33,15 @@ public class VentanaJuego {
 
         VBox centro = new VBox(24, seccionReserva, seccionColumnas);
 
-        raiz.setBackground(Background.fill(Color.DARKGREEN));
-        raiz.setPadding(new Insets(20));
-        raiz.setLeft(seccionFoundation);
-        raiz.setCenter(centro);
-        raiz.setBottom(seccionOpciones);
-
+        BorderPane tablero = new BorderPane();
+        tablero.setPadding(new Insets(20));
+        tablero.setLeft(seccionFoundation);
+        tablero.setCenter(centro);
         BorderPane.setMargin(seccionFoundation, new Insets(0, 20, 0, 0));
-        BorderPane.setMargin(seccionOpciones, new Insets(20, 0, 0, 0));
 
+        raiz.setBackground(Background.fill(Color.rgb(40, 42, 54)));
+        raiz.setTop(seccionOpciones);
+        raiz.setCenter(tablero);
         redibujar(juego);
     }
 
