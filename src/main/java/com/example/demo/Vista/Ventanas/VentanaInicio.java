@@ -25,7 +25,7 @@ public class VentanaInicio {
 
         botonJugar.getStyleClass().add("boton-juego");
         botonSalir.getStyleClass().add("boton-juego");
-        VBox botones = new VBox(botonJugar, botonSalir);
+        VBox botones = new VBox(16, botonJugar, botonSalir);
         botones.setAlignment(Pos.CENTER);
 
         ventana.getChildren().addAll(tituloJuego, botones);
