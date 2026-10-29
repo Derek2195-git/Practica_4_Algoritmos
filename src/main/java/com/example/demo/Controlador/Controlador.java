@@ -87,11 +87,11 @@ public class Controlador {
             case COLUMNA -> switch (destinoTipo) {
                 case COLUMNA -> juego.columnaAColumna(origenIndice, destinoIndice);
                 case RESERVA -> juego.columnaAReserva(origenIndice, destinoIndice);
-                case FOUNDATION -> juego.columnaAFoundation(origenIndice);
+                case FOUNDATION -> juego.columnaAFoundation(origenIndice, destinoIndice);
             };
             case RESERVA -> switch (destinoTipo) {
                 case COLUMNA -> juego.reservaAColumna(origenIndice, destinoIndice);
-                case FOUNDATION -> juego.reservaAFoundation(origenIndice);
+                case FOUNDATION -> juego.reservaAFoundation(origenIndice, destinoIndice);
                 case RESERVA ->  false;
             };
             case FOUNDATION -> false;
@@ -129,8 +129,14 @@ public class Controlador {
     }
 
     private void manejarUndo() {
-        // TODO: Deshacer el movimiento
-        ventana.mostrarMensaje("Falta de implementar");
+        if (juego.undo()) {
+            limpiarSeleccion();
+            ventana.redibujar(juego);
+            ventana.mostrarMensaje("");
+        } else {
+            ventana.mostrarMensaje("No hay movimientos por deshacer");
+        }
+
     }
 
     private void manejarPista() {

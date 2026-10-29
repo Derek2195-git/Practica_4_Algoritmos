@@ -2,6 +2,7 @@ package com.example.demo.Modelo.Juego;
 
 import com.example.demo.Modelo.Baraja.CartaInglesa;
 import com.example.demo.Modelo.Baraja.Mazo;
+import com.example.demo.Modelo.ZonaJuego;
 
 public class Solitario {
     public final int NUM_COLUMNAS = 8;
@@ -14,6 +15,7 @@ public class Solitario {
     private Reserva[] reservas;
     private Foundation[] foundations;
     private Mazo mazo;
+    private ContenedorMovimiento historialMovimientos;
     private boolean soloReyes;
 
     public Solitario(boolean soloReyes) {
@@ -22,6 +24,7 @@ public class Solitario {
     }
 
     public void iniciarJuego() {
+        historialMovimientos = new ContenedorMovimiento();
         mazo = new Mazo();
 
         columnas = new ColumnaCartas[NUM_COLUMNAS];
@@ -61,6 +64,8 @@ public class Solitario {
         CartaInglesa carta = columnas[origen].verTope();
         if (carta == null || !columnas[destino].agregarCarta(carta)) return false;
         columnas[origen].quitarCarta();
+        historialMovimientos.agregarMovimiento(new Movimiento(carta,
+                ZonaJuego.COLUMNA, origen, ZonaJuego.COLUMNA, destino));
         return true;
     }
 
@@ -68,6 +73,8 @@ public class Solitario {
         CartaInglesa carta = columnas[col].verTope();
         if (carta == null || !reservas[res].agregarCarta(carta)) return false;
         columnas[col].quitarCarta();
+        historialMovimientos.agregarMovimiento(new Movimiento(carta,
+                ZonaJuego.COLUMNA, col, ZonaJuego.RESERVA, res));
         return true;
     }
 
@@ -75,28 +82,41 @@ public class Solitario {
         CartaInglesa carta = reservas[res].getCarta();
         if (carta == null || !columnas[col].agregarCarta(carta)) return false;
         reservas[res].quitarCarta();
+        historialMovimientos.agregarMovimiento(new Movimiento(carta,
+                ZonaJuego.RESERVA, res, ZonaJuego.COLUMNA, col));
         return true;
     }
 
-    public boolean columnaAFoundation(int col) {
+    public boolean columnaAFoundation(int col, int foun) {
         CartaInglesa carta = columnas[col].verTope();
-        if (carta == null || !agregarAFoundation(carta)) return false;
+        if (carta == null || foun < 0 || !foundations[foun].agregarCarta(carta)) return false;
         columnas[col].quitarCarta();
+        historialMovimientos.agregarMovimiento(new Movimiento(carta,
+                ZonaJuego.COLUMNA, col, ZonaJuego.FOUNDATION, foun));
         return true;
     }
 
-    public boolean reservaAFoundation(int res) {
+    public boolean reservaAFoundation(int res, int foun) {
         CartaInglesa carta = reservas[res].getCarta();
-        if (carta == null || !agregarAFoundation(carta)) return false;
+        if (carta == null || foun < 0 || !foundations[foun].agregarCarta(carta)) return false;
         reservas[res].quitarCarta();
+        historialMovimientos.agregarMovimiento(new Movimiento(carta,
+                ZonaJuego.RESERVA, res, ZonaJuego.FOUNDATION, foun));
         return true;
     }
 
-    private boolean agregarAFoundation(CartaInglesa carta) {
-        for (Foundation f : foundations) {
-            if (f.agregarCarta(carta)) return true;
+    private int agregarAFoundation(CartaInglesa carta) {
+        for (int i = 0; i < foundations.length; i++) {
+            if (foundations[i].agregarCarta(carta)) return i;
         }
-        return false;
+        return -1;
+    }
+
+    private int buscarFoundation(CartaInglesa carta) {
+        for (int i = 0; i < foundations.length; i++) {
+            if (foundations[i].puedeRecibirCarta(carta)) return i;
+        }
+        return -1;
     }
 
     public boolean juegoGanado() {
@@ -107,6 +127,27 @@ public class Solitario {
     }
 
     // Todo: hacer metodos de pista, undo y acabar el juego si no hay movimientos posibles
+
+    public boolean undo() {
+        Movimiento movimiento = historialMovimientos.sacarMovimiento();
+        if (movimiento == null) return false;
+
+        switch (movimiento.getZonaDestino()) {
+            case COLUMNA -> columnas[movimiento.getIndiceDestino()].quitarCarta();
+            case RESERVA -> reservas[movimiento.getIndiceDestino()].quitarCarta();
+            case FOUNDATION -> foundations[movimiento.getIndiceDestino()].quitarCarta();
+        }
+
+        switch (movimiento.getZonaOrigen()) {
+            case COLUMNA -> columnas[movimiento.getIndiceOrigen()]
+                    .colocarCarta(movimiento.getCarta());
+            case RESERVA -> reservas[movimiento.getIndiceOrigen()]
+                    .colocarCarta(movimiento.getCarta());
+            case null, default -> { }
+        }
+
+        return true;
+    }
 
     public ColumnaCartas getColumna(int indice) {
         return columnas[indice];
