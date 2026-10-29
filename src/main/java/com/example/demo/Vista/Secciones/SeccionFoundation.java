@@ -12,7 +12,7 @@ public class SeccionFoundation extends VBox {
     private PanelFoundation[] foundations;
 
     public SeccionFoundation(int cantidad, IntConsumer alHacerClick) {
-        super(27);
+        super(33);
         setAlignment(Pos.TOP_CENTER);
 
         foundations = new PanelFoundation[cantidad];

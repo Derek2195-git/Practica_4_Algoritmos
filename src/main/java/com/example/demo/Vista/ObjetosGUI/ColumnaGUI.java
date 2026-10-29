@@ -9,9 +9,9 @@ import javafx.scene.paint.Color;
 import java.util.function.IntConsumer;
 
 public class ColumnaGUI extends Pane {
-    private static final double ALTO_AREA = 440;      // altura disponible para la cascada
-    private static final double SEPARACION_MAX = 30;  // cuánto se ve de cada carta tapada
-    private static final double SEPARACION_MIN = 12;
+    private static final double ALTO_AREA = 364;      // altura disponible para la cascada
+    private static final double SEPARACION_MAX = 22;  // cuánto se ve de cada carta tapada
+    private static final double SEPARACION_MIN = 10;
 
     private final int indice;
     private final IntConsumer alHacerClic;

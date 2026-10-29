@@ -7,8 +7,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class CartaGUI extends ImageButton {
-    public static final int ANCHO = 96;
-    public static final int ALTO = 128;
+    public static final int ANCHO = 72;
+    public static final int ALTO = 96;
     private CartaInglesa carta;
 
     public CartaGUI(CartaInglesa carta) {
