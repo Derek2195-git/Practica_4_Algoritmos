@@ -30,6 +30,7 @@ public abstract class Carta implements Comparable<Carta> {
             case 11 -> "J"+ palo.getFigura();
             case 12 -> "Q" + palo.getFigura();
             case 13 -> "K" + palo.getFigura();
+            case -1 -> "Joker1";
             default -> ""+ valor + palo.getFigura();
         };
     }

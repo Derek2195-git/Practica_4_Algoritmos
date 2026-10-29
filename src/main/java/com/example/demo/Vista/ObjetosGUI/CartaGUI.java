@@ -23,11 +23,15 @@ public class CartaGUI extends ImageButton {
     }
 
     public static String generarRuta(CartaInglesa carta) {
+        if (carta.getValor() == -1) {
+            return "/recursos/baraja/Joker1.png";
+        }
         String rango = switch (carta.getValor()) {
             case 1 -> "A";
             case 11 -> "J";
             case 12 -> "Q";
             case 13 -> "K";
+
             default -> String.valueOf(carta.getValor());
         };
         return "/recursos/baraja/" + rango + "_" +

@@ -1,29 +1,44 @@
 package com.example.demo.Modelo.Juego;
 
+import com.example.demo.Modelo.Baraja.CartaInglesa;
 import com.example.demo.Modelo.Listas.ListaSimple;
+import com.example.demo.Modelo.ZonaJuego;
 
 public class Movimiento {
-    private ListaSimple<Reserva> reservas;
-    private ListaSimple<ColumnaCartas> columnas;
-    private ListaSimple<Foundation> foundations;
+    private CartaInglesa carta;
+    private ZonaJuego zonaOrigen;
+    private int indiceOrigen;
+    private ZonaJuego zonaDestino;
+    private int indiceDestino;
 
-    public Movimiento(ListaSimple<Reserva> reservas,
-                      ListaSimple<ColumnaCartas> columnas,
-                      ListaSimple<Foundation> foundations) {
-        this.reservas = reservas;
-        this.columnas = columnas;
-        this.foundations = foundations;
+
+    public Movimiento(CartaInglesa carta, ZonaJuego zonaOrigen,
+                      int indiceOrigen, ZonaJuego zonaDestino, int indiceDestino) {
+        this.carta = carta;
+        this.zonaOrigen = zonaOrigen;
+        this.indiceOrigen = indiceOrigen;
+        this.zonaDestino = zonaDestino;
+        this.indiceDestino = indiceDestino;
     }
 
-    public ListaSimple<Reserva> getReservas() {
-        return reservas;
+    public CartaInglesa getCarta() {
+        return carta;
     }
 
-    public ListaSimple<ColumnaCartas> getColumnas() {
-        return columnas;
+    public ZonaJuego getZonaOrigen() {
+        return zonaOrigen;
     }
 
-    public ListaSimple<Foundation> getFoundations() {
-        return foundations;
+    public int getIndiceOrigen() {
+        return indiceOrigen;
     }
+
+    public ZonaJuego getZonaDestino() {
+        return zonaDestino;
+    }
+
+    public int getIndiceDestino() {
+        return indiceDestino;
+    }
+
 }

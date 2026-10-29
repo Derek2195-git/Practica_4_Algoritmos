@@ -1,10 +1,16 @@
 @font-face {
+    font-family: "Pixel Font - Pixelham Condensed";
     src: url("recursos/Pixelham-Bold.ttf");
 }
 
 .tituloJuego {
-    -fx-font-family: "Pixelham Bold";
-    -fx-font-size: 20px;
+    -fx-font-family: "Pixel Font - Pixelham Condensed";
+    -fx-font-size: 40px;
+    -fx-text-fill: white;
+}
+
+.carta-logo {
+    -fx-opacity: 0.5;
 }
 
 .ranura-carta {
@@ -36,6 +42,21 @@
     -fx-font-weight: bold;
     -fx-padding: 6 16 6 16;
     -fx-cursor: hand;
+}
+
+.boton-titulo {
+    -fx-font-family: "Pixel Font - Pixelham Condensed";
+    -fx-background-color: #bd93f9;
+    -fx-background-radius: 8;
+    -fx-text-fill: #f8f8f2;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 16 6 16;
+    -fx-cursor: hand;
+}
+
+.boton-titulo:hover {
+    -fx-background-color: #b087f1;
 }
 
 .boton-juego:hover {
