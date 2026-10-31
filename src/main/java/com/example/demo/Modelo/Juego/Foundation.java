@@ -23,6 +23,8 @@ public class Foundation {
         return true;
     }
 
+
+
     public CartaInglesa verTope() { return cartasContenidas.peekInicio(); }
 
     public CartaInglesa quitarCarta() { return cartasContenidas.eliminaInicio(); }

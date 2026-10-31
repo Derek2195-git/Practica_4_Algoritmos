@@ -151,13 +151,14 @@ public class Solitario {
     }
 
     public Movimiento pedirPista() {
-        Movimiento movimiento;
-        if ((movimiento = encontrarMovimientoFoundation()) != null) return movimiento;
-        if ((movimiento = encontrarMovimientoReservaAColumna()) != null) return movimiento;
-        if ((movimiento = encontrarMovimientoColumnaAColumna()) != null) return movimiento;
-        if ((movimiento = encontrarMovimientoColumnaAReserva()) != null) return movimiento;
+        Movimiento mov;
+        if ((mov = encontrarMovimientoFoundation()) != null) return mov;
+        if ((mov = encontrarMovimientoReservaAColumna(false)) != null) return mov;
+        if ((mov = encontrarMovimientoColumnaAColumna(true)) != null) return mov;
+        if ((mov = encontrarMovimientoColumnaAReserva()) != null) return mov;
 
-        return encontrarMovimientoColumnaAColumna();
+        if ((mov = encontrarMovimientoReservaAColumna(true)) != null) return mov;
+        return encontrarMovimientoColumnaAColumna(false);
     }
 
     public Movimiento encontrarMovimientoFoundation() {
@@ -181,16 +182,81 @@ public class Solitario {
         return null;
     }
 
-    public Movimiento encontrarMovimientoReservaAColumna() {
+    public Movimiento encontrarMovimientoReservaAColumna(boolean permitirReservasVacias) {
+        for (int res = 0; res < NUM_RESERVAS; res++) {
+            CartaInglesa carta = reservas[res].getCarta();
+            if (carta == null) continue;
+
+            for (int col = 0; col < NUM_COLUMNAS; col++) {
+                if (columnas[col].estaVacia() && !permitirReservasVacias) continue;
+                if (columnas[col].puedeRecibir(carta)) {
+                    return new Movimiento(carta, ZonaJuego.RESERVA, res, ZonaJuego.COLUMNA, col);
+                }
+            }
+        }
         return null;
     }
 
-    public Movimiento encontrarMovimientoColumnaAColumna() {
+    public Movimiento encontrarMovimientoColumnaAColumna(boolean soloCartasUtiles) {
+        for (int ori = 0; ori < NUM_COLUMNAS; ori++) {
+            CartaInglesa carta = columnas[ori].verTope();
+            if (carta == null) continue;
+            for (int dest = 0; dest < NUM_COLUMNAS; dest++) {
+                if (dest == ori || columnas[dest].estaVacia()) continue;
+                if (columnas[dest].puedeRecibir(carta))
+                    return new Movimiento(carta, ZonaJuego.COLUMNA, ori, ZonaJuego.COLUMNA, dest);
+            }
+        }
+
+        for (int ori = 0; ori < NUM_COLUMNAS; ori++) {
+            CartaInglesa carta = columnas[ori].verTope();
+            if (carta == null) continue;
+            if (soloCartasUtiles && columnas[ori].getTamano() == 1) continue;
+
+            for (int dest = 0; dest < NUM_COLUMNAS; dest++) {
+                if (ori == dest || !columnas[dest].estaVacia()) continue;
+                if (columnas[dest].puedeRecibir(carta))
+                    return new Movimiento(carta, ZonaJuego.COLUMNA, ori, ZonaJuego.COLUMNA, dest);
+            }
+        }
         return null;
     }
 
     public Movimiento encontrarMovimientoColumnaAReserva() {
+        int res = encontrarPrimeraReservaVacia();
+        if (res == -1) return null;
+
+        for (int col = 0; col < NUM_COLUMNAS; col++) {
+            CartaInglesa carta = columnas[col].verTope();
+            CartaInglesa revelada = columnas[col].getCarta(1);
+            if (carta == null || revelada == null) continue;
+
+            if (puedeMoverseFuera(revelada, col))
+                return new Movimiento(carta, ZonaJuego.COLUMNA, col, ZonaJuego.RESERVA, res);
+        }
+
+        for (int col = 0; col < NUM_COLUMNAS; col++) {
+            CartaInglesa carta = columnas[col].verTope();
+            if (carta != null)
+                return new Movimiento(carta, ZonaJuego.COLUMNA, col, ZonaJuego.RESERVA, res);
+        }
         return null;
+    }
+
+    public int encontrarPrimeraReservaVacia() {
+        for (int i = 0; i < NUM_RESERVAS; i++) {
+            if (reservas[i].estaVacia()) return i;
+        }
+        return -1;
+    }
+
+    public boolean puedeMoverseFuera(CartaInglesa carta, int columnaExcluida) {
+        if (buscarFoundation(carta) != -1) return true;
+        for (int col = 0; col < NUM_COLUMNAS; col++) {
+            if (col == columnaExcluida || columnas[col].estaVacia()) continue;
+            if (columnas[col].puedeRecibir(carta)) return true;
+        }
+        return false;
     }
 
     public boolean noQuedanMovimientos() {

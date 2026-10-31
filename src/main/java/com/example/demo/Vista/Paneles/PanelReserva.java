@@ -12,6 +12,7 @@ public class PanelReserva extends StackPane {
     private final int indice;
     private final IntConsumer alHacerClic;
     private CartaGUI carta;
+    Button hueco;
 
     public PanelReserva(int indice, IntConsumer alHacerClic) {
         this.indice = indice;
@@ -28,12 +29,14 @@ public class PanelReserva extends StackPane {
         hueco.setPrefSize(CartaGUI.ANCHO, CartaGUI.ALTO);
         hueco.setFocusTraversable(false);
         hueco.setOnAction(e -> alHacerClic.accept(indice));
+        this.hueco = hueco;
         return hueco;
     }
 
     public void actualizar(Reserva reserva) {
         getChildren().clear();
         carta = null;
+        hueco = null;
 
         if (reserva.estaVacia()) {
             getChildren().add(crearHueco());
@@ -50,6 +53,10 @@ public class PanelReserva extends StackPane {
 
     public void setPista(boolean pista) {
         if (carta != null) carta.setPista(pista);
+        if (hueco != null) {
+            hueco.getStyleClass().remove("ranura-pista");
+            if (pista) hueco.getStyleClass().add("ranura-pista");
+        }
     }
 
     public int getIndice() {

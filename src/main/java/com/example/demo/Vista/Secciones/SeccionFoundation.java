@@ -3,6 +3,7 @@ package com.example.demo.Vista.Secciones;
 import com.example.demo.Modelo.Juego.Foundation;
 import com.example.demo.Modelo.Juego.Solitario;
 import com.example.demo.Vista.Paneles.PanelFoundation;
+import com.example.demo.Vista.Paneles.PanelReserva;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 
@@ -26,6 +27,10 @@ public class SeccionFoundation extends VBox {
         for (int i = 0; i < foundations.length; i++) {
             foundations[i].redibujar(juego.getFoundation(i));
         }
+    }
+
+    public void quitarMarcas() {
+        for (PanelFoundation f : foundations) f.setPista(false);
     }
 
     public PanelFoundation getFoundation(int indice) {

@@ -27,6 +27,20 @@
     -fx-background-color: #44475a;
 }
 
+.ranura-pista {
+    -fx-background-color: #282a36;
+    -fx-background-radius: 8;
+    -fx-border-color: #93f9f6;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-padding: 0;
+}
+
+.ranura-carta:hover {
+    -fx-background-color: #44475a;
+}
+
 .barra-opciones {
     -fx-background-color: #44475a;
     -fx-border-color: #44475a;

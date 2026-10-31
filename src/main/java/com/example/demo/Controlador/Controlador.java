@@ -57,7 +57,11 @@ public class Controlador {
     }
 
     private void alHacerClick(ZonaJuego tipo, int indice) {
+        ventana.quitarMarcas();
+        if (origenTipo != null) ventana.marcarSeleccion(origenTipo, origenIndice);
         ventana.mostrarMensaje("");
+
+
 
         // Todavía no hay carta elegida: elegir esta (si hay)
         if (origenTipo == null) {
@@ -147,7 +151,8 @@ public class Controlador {
             return;
         }
         limpiarSeleccion();
-        ventana.marcarSeleccion(pista.getZonaOrigen(), pista.getIndiceDestino());
+        ventana.marcarPista(pista.getZonaOrigen(), pista.getIndiceOrigen());
+        ventana.marcarPista(pista.getZonaDestino(), pista.getIndiceDestino());
         ventana.mostrarMensaje("Movimiento posible encontrado");
     }
 

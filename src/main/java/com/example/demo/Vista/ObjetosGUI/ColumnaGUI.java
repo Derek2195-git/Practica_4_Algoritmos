@@ -16,13 +16,14 @@ public class ColumnaGUI extends Pane {
     private final int indice;
     private final IntConsumer alHacerClic;
     private CartaGUI cartaTope;
+    private Button hueco;
 
     public ColumnaGUI(int indice, IntConsumer alHacerClic) {
         this.indice = indice;
         this.alHacerClic = alHacerClic;
-        setPrefSize(CartaGUI.ALTO, ALTO_AREA);
-        setMinSize(CartaGUI.ANCHO, ALTO_AREA);
-        setMaxSize(CartaGUI.ANCHO, ALTO_AREA);
+        setPrefSize(CartaGUI.ALTO, CartaGUI.ANCHO);
+        setMinSize(CartaGUI.ALTO, CartaGUI.ANCHO);
+        setMaxSize(CartaGUI.ALTO, CartaGUI.ANCHO);
         getChildren().add(crearHueco());
     }
 
@@ -32,6 +33,7 @@ public class ColumnaGUI extends Pane {
         hueco.setFocusTraversable(false);
         hueco.getStyleClass().add("ranura-carta");
         hueco.setOnAction(e -> alHacerClic.accept(indice));
+        this.hueco = hueco;
         return hueco;
     }
 
@@ -65,6 +67,8 @@ public class ColumnaGUI extends Pane {
 
     public void setPista(boolean pista) {
         if (cartaTope != null) cartaTope.setPista(pista);
+        hueco.getStyleClass().remove("ranura-pista");
+        if (pista && cartaTope == null) hueco.getStyleClass().add("ranura-pista");
     }
 
     public int getIndice() {

@@ -10,6 +10,8 @@ import java.util.function.IntConsumer;
 public class PanelFoundation extends StackPane {
     private int indice;
     private IntConsumer alHacerClick;
+    private CartaGUI tope;
+    private Button hueco;
 
     public PanelFoundation(int indice, IntConsumer alHacerClick) {
         this.indice = indice;
@@ -26,23 +28,35 @@ public class PanelFoundation extends StackPane {
         hueco.setPrefSize(CartaGUI.ANCHO, CartaGUI.ALTO);
         hueco.setFocusTraversable(false);
         hueco.setOnAction(e -> alHacerClick.accept(indice));
+        this.hueco = hueco;
         return hueco;
     }
 
     public void redibujar(Foundation foundation) {
         getChildren().clear();
+        hueco = null;
+        tope = null;
 
         if (foundation.estaVacia()) {
             getChildren().add(crearHueco());
         } else {
-            CartaGUI tope = new CartaGUI(foundation.verTope());
+            tope = new CartaGUI(foundation.verTope());
             tope.setOnAction(e -> alHacerClick.accept(indice));
             getChildren().add(tope);
         }
     }
 
+
     public int getIndice() {
         return indice;
+    }
+
+    public void setPista(boolean pista) {
+        if (tope != null) tope.setPista(pista);
+        if (hueco != null) {
+            hueco.getStyleClass().remove("ranura-pista");
+            if (pista) hueco.getStyleClass().add("ranura-pista");
+        }
     }
 
 }

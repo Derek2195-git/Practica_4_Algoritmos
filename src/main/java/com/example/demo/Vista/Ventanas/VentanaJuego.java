@@ -52,6 +52,7 @@ public class VentanaJuego {
     }
 
     public void quitarMarcas() {
+        seccionFoundation.quitarMarcas();
         seccionReserva.quitarMarcas();
         seccionColumnas.quitarContorno();
     }
@@ -74,6 +75,14 @@ public class VentanaJuego {
         alerta.setHeaderText(titulo);
         alerta.setContentText(texto);
         alerta.show();
+    }
+
+    public void marcarPista(ZonaJuego zona, int indice) {
+        switch (zona) {
+            case COLUMNA -> seccionColumnas.getColumna(indice).setPista(true);
+            case RESERVA -> seccionReserva.getCelda(indice).setPista(true);
+            case FOUNDATION -> seccionFoundation.getFoundation(indice).setPista(true);
+        }
     }
 
     public SeccionOpciones getSeccionOpciones() {
