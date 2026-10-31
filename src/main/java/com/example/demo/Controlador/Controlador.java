@@ -1,5 +1,6 @@
 package com.example.demo.Controlador;
 
+import com.example.demo.Modelo.Juego.Movimiento;
 import com.example.demo.Modelo.Juego.Solitario;
 import com.example.demo.Modelo.ZonaJuego;
 import com.example.demo.Vista.Ventanas.VentanaInicio;
@@ -140,8 +141,14 @@ public class Controlador {
     }
 
     private void manejarPista() {
-        // TODO: Pedir la pista
-        ventana.mostrarMensaje("Falta de implementar");
+        Movimiento pista = juego.pedirPista();
+        if (pista == null) {
+            ventana.mostrarMensaje("No hay movimientos posibles");
+            return;
+        }
+        limpiarSeleccion();
+        ventana.marcarSeleccion(pista.getZonaOrigen(), pista.getIndiceDestino());
+        ventana.mostrarMensaje("Movimiento posible encontrado");
     }
 
     private void manejarSalir() {

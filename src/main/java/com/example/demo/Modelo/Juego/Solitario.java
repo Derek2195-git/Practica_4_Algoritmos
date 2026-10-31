@@ -126,7 +126,7 @@ public class Solitario {
         return true;
     }
 
-    // Todo: hacer metodos de pista, undo y acabar el juego si no hay movimientos posibles
+    // Todo: hacer metodos de pista,acabar el juego si no hay movimientos posibles
 
     public boolean undo() {
         Movimiento movimiento = historialMovimientos.sacarMovimiento();
@@ -143,11 +143,60 @@ public class Solitario {
                     .colocarCarta(movimiento.getCarta());
             case RESERVA -> reservas[movimiento.getIndiceOrigen()]
                     .colocarCarta(movimiento.getCarta());
-            case null, default -> { }
+            case null, default -> {
+            }
         }
 
         return true;
     }
+
+    public Movimiento pedirPista() {
+        Movimiento movimiento;
+        if ((movimiento = encontrarMovimientoFoundation()) != null) return movimiento;
+        if ((movimiento = encontrarMovimientoReservaAColumna()) != null) return movimiento;
+        if ((movimiento = encontrarMovimientoColumnaAColumna()) != null) return movimiento;
+        if ((movimiento = encontrarMovimientoColumnaAReserva()) != null) return movimiento;
+
+        return encontrarMovimientoColumnaAColumna();
+    }
+
+    public Movimiento encontrarMovimientoFoundation() {
+        for (int col = 0; col < NUM_COLUMNAS; col++) {
+            CartaInglesa carta = columnas[col].verTope();
+            if (carta == null) continue;
+            int f = buscarFoundation(carta);
+            if (f != -1) {
+                return new Movimiento(carta, ZonaJuego.COLUMNA, col, ZonaJuego.FOUNDATION, f);
+            }
+        }
+
+        for (int res = 0; res < NUM_RESERVAS; res++) {
+            CartaInglesa carta = reservas[res].getCarta();
+            if (carta == null) continue;
+            int f = buscarFoundation(carta);
+            if (f != -1) {
+                return new Movimiento(carta, ZonaJuego.RESERVA, res, ZonaJuego.FOUNDATION, f);
+            }
+        }
+        return null;
+    }
+
+    public Movimiento encontrarMovimientoReservaAColumna() {
+        return null;
+    }
+
+    public Movimiento encontrarMovimientoColumnaAColumna() {
+        return null;
+    }
+
+    public Movimiento encontrarMovimientoColumnaAReserva() {
+        return null;
+    }
+
+    public boolean noQuedanMovimientos() {
+        return !juegoGanado() && pedirPista() == null;
+    }
+
 
     public ColumnaCartas getColumna(int indice) {
         return columnas[indice];
