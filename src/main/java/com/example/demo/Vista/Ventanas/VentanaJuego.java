@@ -8,6 +8,8 @@ import com.example.demo.Vista.Secciones.SeccionOpciones;
 import com.example.demo.Vista.Secciones.SeccionReserva;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -21,6 +23,7 @@ public class VentanaJuego {
     private SeccionColumnas seccionColumnas;
     private SeccionFoundation seccionFoundation;
     private SeccionOpciones seccionOpciones;
+    private boolean confirmacionCerrarPartida = false;
 
     public VentanaJuego(Solitario juego,
                         IntConsumer clickColumna,
@@ -52,14 +55,14 @@ public class VentanaJuego {
     }
 
     public void quitarMarcas() {
-        seccionFoundation.quitarMarcas();
-        seccionReserva.quitarMarcas();
+        seccionFoundation.quitarContorno();
+        seccionReserva.quitarContorno();
         seccionColumnas.quitarContorno();
     }
 
-    public void marcarSeleccion(ZonaJuego tipo, int indice) {
+    public void marcarSeleccion(ZonaJuego tipo, int indice, int cantidad) {
         switch (tipo) {
-            case COLUMNA -> seccionColumnas.getColumna(indice).setSeleccionada(true);
+            case COLUMNA -> seccionColumnas.getColumna(indice).setSeleccionada(true, cantidad);
             case RESERVA -> seccionReserva.getCelda(indice).setSeleccionada(true);
             default -> {}
         }
@@ -70,11 +73,21 @@ public class VentanaJuego {
     }
 
     public void mostrarAviso(String titulo, String texto) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle(titulo);
         alerta.setHeaderText(titulo);
         alerta.setContentText(texto);
-        alerta.show();
+        Button botonConfirmar = (Button) alerta.getDialogPane().lookupButton(ButtonType.OK);
+        botonConfirmar.setText("Salir del juego");
+        botonConfirmar.setOnAction(e-> confirmacionCerrarPartida = true);
+        Button botonNegar = (Button) alerta.getDialogPane().lookupButton(ButtonType.CANCEL);
+        botonNegar.setText("Quedarse en la partida actual");
+
+        alerta.showAndWait();
+    }
+
+    public boolean getConfirmacionCerrarPartida() {
+        return confirmacionCerrarPartida;
     }
 
     public void marcarPista(ZonaJuego zona, int indice) {
@@ -83,6 +96,11 @@ public class VentanaJuego {
             case RESERVA -> seccionReserva.getCelda(indice).setPista(true);
             case FOUNDATION -> seccionFoundation.getFoundation(indice).setPista(true);
         }
+    }
+
+    public void bloquearTablero(boolean habilitado) {
+        seccionReserva.setDisable(habilitado);
+        seccionFoundation.setDisable(habilitado);
     }
 
     public SeccionOpciones getSeccionOpciones() {

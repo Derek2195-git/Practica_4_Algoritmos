@@ -22,5 +22,9 @@ public class ContenedorMovimiento {
         return movimientos.isEmpty();
     }
 
+    public Movimiento verUltimo() {
+        return movimientos.peekInicio();
+    }
+
 
 }

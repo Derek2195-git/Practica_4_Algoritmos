@@ -32,7 +32,19 @@ public class ColumnaCartas {
         cartasContenidas.insertaInicio(carta);
     }
 
-
+    public int longitudSecuencia() {
+        int n = getTamano();
+        if (n == 0) return 0;
+        int largo = 1;
+        while (largo < n) {
+            CartaInglesa arriba = getCarta(largo -1);
+            CartaInglesa abajo = getCarta(largo);
+            if (arriba.tieneElMismoPalo(abajo) &&
+            arriba.esLaSiguiente(abajo)) largo++;
+            else break;
+        }
+        return largo;
+    }
 
     public CartaInglesa verTope() { return cartasContenidas.peekInicio(); }
     public CartaInglesa quitarCarta() { return cartasContenidas.eliminaInicio(); }

@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.function.IntConsumer;
 
 public class ColumnaGUI extends Pane {
@@ -16,14 +17,16 @@ public class ColumnaGUI extends Pane {
     private final int indice;
     private final IntConsumer alHacerClic;
     private CartaGUI cartaTope;
+    private ArrayList<CartaGUI> cartas;
     private Button hueco;
 
     public ColumnaGUI(int indice, IntConsumer alHacerClic) {
         this.indice = indice;
         this.alHacerClic = alHacerClic;
-        setPrefSize(CartaGUI.ALTO, CartaGUI.ANCHO);
-        setMinSize(CartaGUI.ALTO, CartaGUI.ANCHO);
-        setMaxSize(CartaGUI.ALTO, CartaGUI.ANCHO);
+        cartas = new ArrayList<>();
+        setPrefSize(CartaGUI.ANCHO, ALTO_AREA);
+        setMinSize(CartaGUI.ANCHO, ALTO_AREA);
+        setMaxSize(CartaGUI.ANCHO, ALTO_AREA);
         getChildren().add(crearHueco());
     }
 
@@ -41,6 +44,7 @@ public class ColumnaGUI extends Pane {
         getChildren().clear();
         getChildren().add(crearHueco());
         cartaTope = null;
+        cartas.clear();
 
         int n = columna.getTamano();
         double separacion = SEPARACION_MAX;
@@ -57,12 +61,21 @@ public class ColumnaGUI extends Pane {
             carta.setLayoutY((n - 1 - i) * separacion);
             carta.setOnAction(e -> alHacerClic.accept(indice));
             getChildren().add(carta);
+            cartas.add(carta);
             cartaTope = carta;
         }
     }
 
     public void setSeleccionada(boolean seleccionada) {
-        if (cartaTope != null) cartaTope.setSeleccionada(seleccionada);
+        setSeleccionada(seleccionada, 1);
+    }
+
+    public void setSeleccionada(boolean seleccionada, int cantidad) {
+        // al quitar la marca se limpian todas; al ponerla, solo las últimas "cantidad"
+        int desde = seleccionada ? Math.max(0, cartas.size() - cantidad) : 0;
+        for (int j = desde; j < cartas.size(); j++) {
+            cartas.get(j).setSeleccionada(seleccionada);
+        }
     }
 
     public void setPista(boolean pista) {

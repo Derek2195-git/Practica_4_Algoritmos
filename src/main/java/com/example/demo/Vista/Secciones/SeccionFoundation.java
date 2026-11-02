@@ -29,7 +29,7 @@ public class SeccionFoundation extends VBox {
         }
     }
 
-    public void quitarMarcas() {
+    public void quitarContorno() {
         for (PanelFoundation f : foundations) f.setPista(false);
     }
 

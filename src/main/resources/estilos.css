@@ -58,6 +58,10 @@
     -fx-cursor: hand;
 }
 
+.boton-juego:disabled {
+    -fx-cursor: not-allowed;
+}
+
 .boton-titulo {
     -fx-font-family: "Pixel Font - Pixelham Condensed";
     -fx-background-color: #bd93f9;

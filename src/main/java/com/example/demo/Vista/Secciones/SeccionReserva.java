@@ -31,7 +31,7 @@ public class SeccionReserva extends HBox {
         return celdas[indice];
     }
 
-    public void quitarMarcas() {
+    public void quitarContorno() {
         for (PanelReserva c : celdas) {
             c.setSeleccionada(false);
             c.setPista(false);

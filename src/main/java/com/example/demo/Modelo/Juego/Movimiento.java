@@ -10,15 +10,27 @@ public class Movimiento {
     private int indiceOrigen;
     private ZonaJuego zonaDestino;
     private int indiceDestino;
+    private int cantidad;
 
 
-    public Movimiento(CartaInglesa carta, ZonaJuego zonaOrigen,
-                      int indiceOrigen, ZonaJuego zonaDestino, int indiceDestino) {
+    public Movimiento(CartaInglesa carta, ZonaJuego zonaOrigen, int indiceOrigen,
+                      ZonaJuego zonaDestino, int indiceDestino) {
         this.carta = carta;
         this.zonaOrigen = zonaOrigen;
         this.indiceOrigen = indiceOrigen;
         this.zonaDestino = zonaDestino;
         this.indiceDestino = indiceDestino;
+        cantidad = 1;
+    }
+
+    public Movimiento(CartaInglesa carta, ZonaJuego zonaOrigen, int indiceOrigen,
+                      ZonaJuego zonaDestino, int indiceDestino, int cantidad) {
+        this.carta = carta;
+        this.zonaOrigen = zonaOrigen;
+        this.indiceOrigen = indiceOrigen;
+        this.zonaDestino = zonaDestino;
+        this.indiceDestino = indiceDestino;
+        this.cantidad = cantidad;
     }
 
     public CartaInglesa getCarta() {
@@ -31,6 +43,10 @@ public class Movimiento {
 
     public int getIndiceOrigen() {
         return indiceOrigen;
+    }
+
+    public int getCantidad() {
+        return cantidad;
     }
 
     public ZonaJuego getZonaDestino() {

@@ -52,4 +52,12 @@ public class SeccionOpciones extends HBox {
     public void mostrarMensaje(String texto) {
         labelJuego.setText(texto);
     }
+
+    public void setDeshacerHabilitado(boolean habilitado) {
+        botonDeshacer.setDisable(!habilitado);
+    }
+
+    public void setPistaHabilitada(boolean habilitada) {
+        botonPista.setDisable(!habilitada);
+    }
 }

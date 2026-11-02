@@ -6,7 +6,6 @@ import com.example.demo.Modelo.ZonaJuego;
 import com.example.demo.Vista.Ventanas.VentanaInicio;
 import com.example.demo.Vista.Ventanas.VentanaJuego;
 import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,11 +15,15 @@ public class Controlador {
     private Solitario juego;
     private VentanaJuego ventana;
 
-    private ZonaJuego origenTipo = null;
-    private int origenIndice = -1;
+    private ZonaJuego origenTipo;
+    private int origenIndice;
+    private int origenCantidad;
 
     public Controlador(Stage stage) {
         this.stage = stage;
+        origenTipo = null;
+        origenIndice = -1;
+        origenCantidad = 1;
         stage.setTitle("Menu principal");
     }
 
@@ -58,7 +61,7 @@ public class Controlador {
 
     private void alHacerClick(ZonaJuego tipo, int indice) {
         ventana.quitarMarcas();
-        if (origenTipo != null) ventana.marcarSeleccion(origenTipo, origenIndice);
+        if (origenTipo != null) ventana.marcarSeleccion(origenTipo, origenIndice, origenCantidad);
         ventana.mostrarMensaje("");
 
 
@@ -90,13 +93,13 @@ public class Controlador {
                                   ZonaJuego destinoTipo, int destinoIndice) {
         return switch (origenTipo) {
             case COLUMNA -> switch (destinoTipo) {
-                case COLUMNA -> juego.columnaAColumna(origenIndice, destinoIndice);
-                case RESERVA -> juego.columnaAReserva(origenIndice, destinoIndice);
-                case FOUNDATION -> juego.columnaAFoundation(origenIndice, destinoIndice);
+                case COLUMNA -> juego.moverColumnaAColumna(origenIndice, destinoIndice);
+                case RESERVA -> juego.moverColumnaAReserva(origenIndice, destinoIndice);
+                case FOUNDATION -> juego.moverColumnaAFoundation(origenIndice, destinoIndice);
             };
             case RESERVA -> switch (destinoTipo) {
-                case COLUMNA -> juego.reservaAColumna(origenIndice, destinoIndice);
-                case FOUNDATION -> juego.reservaAFoundation(origenIndice, destinoIndice);
+                case COLUMNA -> juego.moverReservaAColumna(origenIndice, destinoIndice);
+                case FOUNDATION -> juego.moverReservaAFoundation(origenIndice, destinoIndice);
                 case RESERVA ->  false;
             };
             case FOUNDATION -> false;
@@ -115,7 +118,9 @@ public class Controlador {
         ventana.quitarMarcas();
         origenTipo = tipo;
         origenIndice = indice;
-        ventana.marcarSeleccion(tipo, indice);
+        origenCantidad = (tipo == ZonaJuego.COLUMNA)
+                ? juego.getColumna(indice).longitudSecuencia() : 1;
+        ventana.marcarSeleccion(tipo, indice, origenCantidad);
     }
 
     private void limpiarSeleccion() {
@@ -129,8 +134,19 @@ public class Controlador {
 
         if (juego.juegoGanado()) {
             ventana.mostrarMensaje("Victoria!");
+        } else if (juego.noQuedanMovimientos()) {
+            terminarPartida("Sin movimientos posibles. Fin del juego");
+            ventana.mostrarAviso("Fin del juego",
+                    "Ya no quedan movimientos posibles. Pulsa Salir para volver al menú y empezar otra partida.");
         }
-        // TODO: Aqui debe ir lo de revisar cuando no hay movimientos posibles
+    }
+
+    private void terminarPartida(String mensaje) {
+        limpiarSeleccion();
+        ventana.mostrarMensaje(mensaje);
+        ventana.bloquearTablero(true);
+        ventana.getSeccionOpciones().setDeshacerHabilitado(false);
+        ventana.getSeccionOpciones().setPistaHabilitada(false);
     }
 
     private void manejarUndo() {
@@ -157,6 +173,9 @@ public class Controlador {
     }
 
     private void manejarSalir() {
-        iniciar();
+        ventana.mostrarAviso("Abandonar partida", "¿Seguro que quieres abandonar la partida actual?");
+        if (ventana.getConfirmacionCerrarPartida()) {
+            iniciar();
+        }
     }
 }
