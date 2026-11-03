@@ -36,7 +36,7 @@ public class Controlador {
     }
 
     public void empezarPartida() {
-        juego = new Solitario(true);
+        juego = new Solitario();
         origenTipo = null;
         origenIndice = -1;
         ventana = new VentanaJuego(juego,
@@ -154,14 +154,14 @@ public class Controlador {
             limpiarSeleccion();
             ventana.redibujar(juego);
             ventana.mostrarMensaje("");
+            actualizarBotones();
         } else {
             ventana.mostrarMensaje("No hay movimientos por deshacer");
         }
-
     }
 
     private void manejarPista() {
-        Movimiento pista = juego.pedirPista();
+        Movimiento pista = juego.pista();
         if (pista == null) {
             ventana.mostrarMensaje("No hay movimientos posibles");
             return;
@@ -170,6 +170,12 @@ public class Controlador {
         ventana.marcarPista(pista.getZonaOrigen(), pista.getIndiceOrigen());
         ventana.marcarPista(pista.getZonaDestino(), pista.getIndiceDestino());
         ventana.mostrarMensaje("Movimiento posible encontrado");
+        actualizarBotones();
+    }
+
+    private void actualizarBotones() {
+        if (juego.getUndosRestantes() <= 0) ventana.getSeccionOpciones().setDeshacerHabilitado(false);
+        ventana.getSeccionOpciones().setPistaHabilitada(juego.getPistasRestantes() > 0);
     }
 
     private void manejarSalir() {

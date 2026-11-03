@@ -5,22 +5,25 @@ import com.example.demo.Modelo.Baraja.Mazo;
 import com.example.demo.Modelo.Listas.ListaSimple;
 import com.example.demo.Modelo.ZonaJuego;
 
+
 public class Solitario {
     public final int NUM_COLUMNAS = 8;
     public final int NUM_RESERVAS = 8;
     public final int NUM_FOUNDATIONS = 4;
     private final int CARTAS_POR_COLUMNA = 6;
     private final int CARTAS_EN_RESERVA_INICIAL = 4;
+    private final int CANTIDAD_UNDOS = 1;
+    private final int CANTIDAD_PISTAS = 3;
+    private int undosRestantes = CANTIDAD_UNDOS;
+    private int pistasRestantes = CANTIDAD_PISTAS;
 
     private ColumnaCartas[] columnas;
     private Reserva[] reservas;
     private Foundation[] foundations;
     private Mazo mazo;
     private ContenedorMovimiento historialMovimientos;
-    private boolean soloReyes;
 
-    public Solitario(boolean soloReyes) {
-        this.soloReyes = soloReyes;
+    public Solitario() {
         iniciarJuego();
     }
 
@@ -33,7 +36,7 @@ public class Solitario {
 
         columnas = new ColumnaCartas[NUM_COLUMNAS];
         for (int i = 0; i < NUM_COLUMNAS; i++) {
-            columnas[i] = new ColumnaCartas(soloReyes);
+            columnas[i] = new ColumnaCartas(true);
         }
 
         reservas = new Reserva[NUM_RESERVAS];
@@ -184,6 +187,7 @@ public class Solitario {
      * @return Booleano que indica si el undo se pudo realizar o no
      */
     public boolean undo() {
+        if (undosRestantes == 0) return false;
         // Obtenemos el ultimo movimiento de la "pila" y revisamos que exista
         Movimiento movimiento = historialMovimientos.sacarMovimiento();
         if (movimiento == null) return false;
@@ -210,7 +214,17 @@ public class Solitario {
                     .colocarCarta(movimiento.getCarta());
             case null, default -> {}
         }
+
+        undosRestantes--;
+
         return true;
+    }
+
+    public Movimiento pista() {
+        if (pistasRestantes == 0) return null;
+        Movimiento pista = pedirPista();
+        if (pista != null) --pistasRestantes;
+        return pista;
     }
 
     /**
@@ -423,26 +437,51 @@ public class Solitario {
     }
 
     /**
-     *
-     * @param col
-     * @return
+     * Metodo que revisa si una carta es parte de una secuencia
+     * @param col Columna donde se ubica la carta
+     * @return Booleano que indica si la carta es parte de una secuencia
      */
     private boolean estaSobreSuPadre(int col) {
+        // Obtenemos la carta actual y la anterior
         CartaInglesa carta = columnas[col].verTope();
         CartaInglesa debajo = columnas[col].getCarta(1);
+        // Revisamos si ambas tienen el mismo palo y si la primera es la siguiente de la anterior
         return carta != null && debajo != null
                 && carta.tieneElMismoPalo(debajo) && carta.esLaSiguiente(debajo);
     }
 
+    /**
+     * Getter de un tableau del juego
+     * @param indice Indice de la columna que se quiere obtener
+     * @return Tableau deseado, con las cartas o atributos que posea
+     */
     public ColumnaCartas getColumna(int indice) {
         return columnas[indice];
     }
 
+    /**
+     * Getter de una reserva del juego
+     * @param indice Indice de la reserva que queremos obtener
+     * @return Reserva deseada, con la carta que contenga
+     */
     public Reserva getReserva(int indice) {
         return reservas[indice];
     }
 
+    /**
+     * Getter de una foundation del juego
+     * @param indice Indice de la foundation buscada
+     * @return Foundation deseada, con las cartas que pueda o no contener
+     */
     public Foundation getFoundation(int indice) {
         return foundations[indice];
+    }
+
+    public int getPistasRestantes() {
+        return pistasRestantes;
+    }
+
+    public int getUndosRestantes() {
+        return undosRestantes;
     }
 }
