@@ -42,9 +42,10 @@ public class VentanaJuego {
         tablero.setCenter(centro);
         BorderPane.setMargin(seccionFoundation, new Insets(0, 20, 0, 0));
 
-        raiz.setBackground(Background.fill(Color.rgb(40, 42, 54)));
+
         raiz.setTop(seccionOpciones);
         raiz.setCenter(tablero);
+        raiz.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
         redibujar(juego);
     }
 

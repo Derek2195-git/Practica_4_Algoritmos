@@ -3,6 +3,16 @@
     src: url("recursos/Pixelham-Bold.ttf");
 }
 
+.root {
+    -fx-background-color: #282a36;
+    -fx-base: #44475a;
+    -fx-background: #282a36;
+    -fx-accent: #bd93f9;
+    -fx-focus-color: #bd93f9;
+    -fx-faint-focus-color: transparent;
+    -fx-font-size: 13px;
+}
+
 .tituloJuego {
     -fx-font-family: "Pixel Font - Pixelham Condensed";
     -fx-font-size: 40px;

@@ -131,14 +131,19 @@ public class Controlador {
 
     private void despuesDeMover() {
         ventana.redibujar(juego);
-
+        String mensaje;
         if (juego.juegoGanado()) {
-            ventana.mostrarMensaje("Victoria!");
+            terminarPartida("Victoria!");
         } else if (juego.noQuedanMovimientos()) {
-            terminarPartida("Sin movimientos posibles. Fin del juego");
+            terminarPartida("Fin del juego.");
             ventana.mostrarAviso("Fin del juego",
                     "Ya no quedan movimientos posibles. Pulsa Salir para volver al menú y empezar otra partida.");
+            if (ventana.getConfirmacionCerrarPartida()) {
+                iniciar();
+            }
         }
+
+
     }
 
     private void terminarPartida(String mensaje) {
@@ -154,14 +159,13 @@ public class Controlador {
             limpiarSeleccion();
             ventana.redibujar(juego);
             ventana.mostrarMensaje("");
-            actualizarBotones();
         } else {
             ventana.mostrarMensaje("No hay movimientos por deshacer");
         }
     }
 
     private void manejarPista() {
-        Movimiento pista = juego.pista();
+        Movimiento pista = juego.pedirPista();
         if (pista == null) {
             ventana.mostrarMensaje("No hay movimientos posibles");
             return;
@@ -170,12 +174,6 @@ public class Controlador {
         ventana.marcarPista(pista.getZonaOrigen(), pista.getIndiceOrigen());
         ventana.marcarPista(pista.getZonaDestino(), pista.getIndiceDestino());
         ventana.mostrarMensaje("Movimiento posible encontrado");
-        actualizarBotones();
-    }
-
-    private void actualizarBotones() {
-        if (juego.getUndosRestantes() <= 0) ventana.getSeccionOpciones().setDeshacerHabilitado(false);
-        ventana.getSeccionOpciones().setPistaHabilitada(juego.getPistasRestantes() > 0);
     }
 
     private void manejarSalir() {

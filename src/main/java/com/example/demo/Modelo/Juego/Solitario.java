@@ -12,10 +12,6 @@ public class Solitario {
     public final int NUM_FOUNDATIONS = 4;
     private final int CARTAS_POR_COLUMNA = 6;
     private final int CARTAS_EN_RESERVA_INICIAL = 4;
-    private final int CANTIDAD_UNDOS = 1;
-    private final int CANTIDAD_PISTAS = 3;
-    private int undosRestantes = CANTIDAD_UNDOS;
-    private int pistasRestantes = CANTIDAD_PISTAS;
 
     private ColumnaCartas[] columnas;
     private Reserva[] reservas;
@@ -62,7 +58,7 @@ public class Solitario {
             }
         }
         for (int i = 0; i < CARTAS_EN_RESERVA_INICIAL; i++) {
-            reservas[i].colocarCarta(mazo.obtenerUnaCarta());
+            reservas[i].setCarta(mazo.obtenerUnaCarta());
         }
     }
 
@@ -187,7 +183,6 @@ public class Solitario {
      * @return Booleano que indica si el undo se pudo realizar o no
      */
     public boolean undo() {
-        if (undosRestantes == 0) return false;
         // Obtenemos el ultimo movimiento de la "pila" y revisamos que exista
         Movimiento movimiento = historialMovimientos.sacarMovimiento();
         if (movimiento == null) return false;
@@ -211,20 +206,11 @@ public class Solitario {
             case COLUMNA -> columnas[movimiento.getIndiceOrigen()]
                     .colocarCarta(movimiento.getCarta());
             case RESERVA -> reservas[movimiento.getIndiceOrigen()]
-                    .colocarCarta(movimiento.getCarta());
+                    .setCarta(movimiento.getCarta());
             case null, default -> {}
         }
 
-        undosRestantes--;
-
         return true;
-    }
-
-    public Movimiento pista() {
-        if (pistasRestantes == 0) return null;
-        Movimiento pista = pedirPista();
-        if (pista != null) --pistasRestantes;
-        return pista;
     }
 
     /**
@@ -475,13 +461,5 @@ public class Solitario {
      */
     public Foundation getFoundation(int indice) {
         return foundations[indice];
-    }
-
-    public int getPistasRestantes() {
-        return pistasRestantes;
-    }
-
-    public int getUndosRestantes() {
-        return undosRestantes;
     }
 }

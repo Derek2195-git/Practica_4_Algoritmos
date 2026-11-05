@@ -1,15 +1,12 @@
 package com.example.demo.Vista.Ventanas;
 
-import com.example.demo.Modelo.Baraja.CartaInglesa;
-import com.example.demo.Modelo.Baraja.Palo;
-import com.example.demo.Vista.ObjetosGUI.CartaGUI;
+
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -29,8 +26,11 @@ public class VentanaInicio {
         botonJugar = new Button("Jugar");
         botonSalir = new Button("Salir");
 
-        ventana.setBackground(Background.fill(Color.rgb(40, 42, 54)));
+
         ventana.setAlignment(Pos.CENTER);
+
+        //ImageView logo = new ImageView(new Image(getClass().
+        //        getResourceAsStream("/recursos/polish-cow-cow.gif")));
 
         ImageView logo = new ImageView(new Image(getClass().
                 getResourceAsStream("/recursos/baraja/Joker1.png")));
@@ -59,6 +59,8 @@ public class VentanaInicio {
         VBox botones = new VBox(16, botonJugar, botonSalir);
         botones.setAlignment(Pos.CENTER);
 
+
+        ventana.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
         ventana.getChildren().addAll(titulo, botones);
     }
 

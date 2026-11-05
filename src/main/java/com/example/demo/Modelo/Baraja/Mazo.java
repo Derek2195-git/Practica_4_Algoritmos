@@ -25,7 +25,6 @@ public class Mazo {
         return cartas.eliminaInicio();
     }
 
-    // A lo mejor tendré que reescribir esto
     private void mezclar() {
         ListaDobleCircular<CartaInglesa> cartasMezcladas = new ListaDobleCircular<>();
         Random rnd = new Random();
