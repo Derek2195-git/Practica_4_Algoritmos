@@ -13,6 +13,11 @@ public class PanelFoundation extends StackPane {
     private CartaGUI tope;
     private Button hueco;
 
+    /**
+     * Crea un panel que contiene el foundation
+     * @param indice Indice del foundation a recrear
+     * @param alHacerClick Evento que ocurre al clickear la foundation
+     */
     public PanelFoundation(int indice, IntConsumer alHacerClick) {
         this.indice = indice;
         this.alHacerClick = alHacerClick;
@@ -22,6 +27,10 @@ public class PanelFoundation extends StackPane {
         getChildren().add(crearHueco());
     }
 
+    /**
+     * Metodo que muestra un espacio vacio en la foundation
+     * @return Boton que representa una foundation vacia
+     */
     private Button crearHueco() {
         Button hueco = new Button();
         hueco.getStyleClass().add("ranura-carta");
@@ -32,6 +41,10 @@ public class PanelFoundation extends StackPane {
         return hueco;
     }
 
+    /**
+     * Redibuja la foundation
+     * @param foundation Foundation a recrear
+     */
     public void redibujar(Foundation foundation) {
         getChildren().clear();
         hueco = null;
@@ -46,11 +59,10 @@ public class PanelFoundation extends StackPane {
         }
     }
 
-
-    public int getIndice() {
-        return indice;
-    }
-
+    /**
+     * Metodo que ilumina un foundation como si fuera parte de una pista
+     * @param pista Indica si se pidió una pista
+     */
     public void setPista(boolean pista) {
         if (tope != null) tope.setPista(pista);
         if (hueco != null) {

@@ -9,10 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
@@ -21,6 +19,9 @@ public class VentanaInicio {
     private Button botonJugar;
     private Button botonSalir;
 
+    /**
+     * Crea la propia ventana de juego
+     */
     public VentanaInicio() {
         ventana = new VBox(24);
         botonJugar = new Button("Jugar");
@@ -64,14 +65,26 @@ public class VentanaInicio {
         ventana.getChildren().addAll(titulo, botones);
     }
 
+    /**
+     * Getter de la ventana de juego
+     * @return Ventana de juego
+     */
     public VBox getVentana() {
         return ventana;
     }
 
+    /**
+     * Metodo que le asigna una accion al boton de jugar
+     * @param accion Accion a realizar
+     */
     public void alJugar(Runnable accion) {
         botonJugar.setOnAction(e -> accion.run());
     }
 
+    /**
+     * Asigna una accion al boton de salir
+     * @param accion Aaccion a realizar
+     */
     public void alSalir(Runnable accion) {
         botonSalir.setOnAction(e -> accion.run());
     }

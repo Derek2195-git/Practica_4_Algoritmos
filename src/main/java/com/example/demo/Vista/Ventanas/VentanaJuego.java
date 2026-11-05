@@ -25,6 +25,13 @@ public class VentanaJuego {
     private SeccionOpciones seccionOpciones;
     private boolean confirmacionCerrarPartida = false;
 
+    /**
+     * Crea la ventana de juego
+     * @param juego Juego a mostrar
+     * @param clickColumna Evento al clickear la columna
+     * @param clickReserva Evento al clickear la reserva
+     * @param clickFoundation Evento al clickear la foundation
+     */
     public VentanaJuego(Solitario juego,
                         IntConsumer clickColumna,
                         IntConsumer clickReserva,
@@ -49,18 +56,31 @@ public class VentanaJuego {
         redibujar(juego);
     }
 
+    /**
+     * Metodo que redibuja el juego
+     * @param juego Juego a mostrar
+     */
     public void redibujar(Solitario juego) {
         seccionColumnas.redibujar(juego);
         seccionReserva.actualizar(juego);
         seccionFoundation.redibujar(juego);
     }
 
+    /**
+     * Metodo que quiat las marcas/contornos de todas las secciones
+     */
     public void quitarMarcas() {
         seccionFoundation.quitarContorno();
         seccionReserva.quitarContorno();
         seccionColumnas.quitarContorno();
     }
 
+    /**
+     * Metodo que marca una carta al ser seleccionada
+     * @param tipo Tipo de zona que se va a marcar
+     * @param indice Indice de la zona que contenga a la carta
+     * @param cantidad cantidad de cartas a marcar
+     */
     public void marcarSeleccion(ZonaJuego tipo, int indice, int cantidad) {
         switch (tipo) {
             case COLUMNA -> seccionColumnas.getColumna(indice).setSeleccionada(true, cantidad);
@@ -69,10 +89,19 @@ public class VentanaJuego {
         }
     }
 
+    /**
+     * Muestra un mensaje en la seccion de opciones
+     * @param texto Mensaje a mostrar
+     */
     public void mostrarMensaje(String texto) {
         seccionOpciones.mostrarMensaje(texto);
     }
 
+    /**
+     * Muestra un aviso de confirmación al acabar el juego
+     * @param titulo Titulo del aviso
+     * @param texto Texto del cuerpo del aviso
+     */
     public void mostrarAviso(String titulo, String texto) {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle(titulo);
@@ -87,10 +116,19 @@ public class VentanaJuego {
         alerta.showAndWait();
     }
 
+    /**
+     * Getter qie indica si se cerrará la partida
+     * @return Confirma que la partida se acabe al cerrarse la ventana
+     */
     public boolean getConfirmacionCerrarPartida() {
         return confirmacionCerrarPartida;
     }
 
+    /**
+     * Metodo que marca una carta con el color de una pista
+     * @param zona Zona a marcar
+     * @param indice Indice de donde se ubica la carta
+     */
     public void marcarPista(ZonaJuego zona, int indice) {
         switch (zona) {
             case COLUMNA -> seccionColumnas.getColumna(indice).setPista(true);
@@ -99,15 +137,27 @@ public class VentanaJuego {
         }
     }
 
+    /**
+     * Metodo que bloquea la mayoria de cosas del tablero, con excepción de las cartas
+     * @param habilitado Habilitador
+     */
     public void bloquearTablero(boolean habilitado) {
         seccionReserva.setDisable(habilitado);
         seccionFoundation.setDisable(habilitado);
     }
 
+    /**
+     * Getter de la sección de opciones
+     * @return La seccion de opciones
+     */
     public SeccionOpciones getSeccionOpciones() {
         return seccionOpciones;
     }
 
+    /**
+     * Getter de la ventana de juego
+     * @return Ventana de juego
+     */
     public BorderPane getRaiz() {
         return raiz;
     }

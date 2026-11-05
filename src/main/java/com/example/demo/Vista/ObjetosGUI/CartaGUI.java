@@ -4,24 +4,30 @@ import com.example.demo.Modelo.Baraja.CartaInglesa;
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+
 
 public class CartaGUI extends ImageButton {
     public static final int ANCHO = 72;
     public static final int ALTO = 96;
     private CartaInglesa carta;
 
+    /**
+     * Crea la representación visual de una Carta
+     * @param carta Carta a representar
+     */
     public CartaGUI(CartaInglesa carta) {
         super(generarRuta(carta), ALTO, ANCHO);
         this.carta = carta;
 
         setPadding(Insets.EMPTY);
         setFocusTraversable(false);
-        if (getGraphic() instanceof ImageView image) {
-            image.setSmooth(false);
-        }
     }
 
+    /**
+     * Metodo que genera la ruta donde se ubica la imagen correspondiente de la carta
+     * @param carta Carta a mostrar
+     * @return Ruta que contiene el nombre y ruta de la imagen de la carta
+     */
     public static String generarRuta(CartaInglesa carta) {
         if (carta.getValor() == -1) {
             return "/recursos/baraja/Joker1.png";
@@ -38,30 +44,33 @@ public class CartaGUI extends ImageButton {
                 carta.getPalo().getFigura() + ".png";
     }
 
-    public CartaInglesa getCarta() {
-        return carta;
-    }
-
+    /**
+     * Metodo que cambia el color de una carta para que se muestre como seleccionada
+     * @param seleccionada Booleano que indica si se seleccionó la carta
+     */
     public void setSeleccionada(boolean seleccionada) {
-        cambiarContorno(seleccionada ? Color.rgb(80, 250, 123) : null);
-    }
-
-    public void setPista(boolean pista) {
-        cambiarContorno(pista ? Color.rgb(139, 233, 253) : null);
-    }
-
-    public void cambiarContorno(Color color) {
-        if (color == null) {
-            setBorder(Border.EMPTY);
-        } else {
-            setBorder(new Border(new BorderStroke(
-                    color, BorderStrokeStyle.SOLID,
-                    new CornerRadii(6), new BorderWidths(2)
-            )));
+        if (seleccionada) {
+            if (!getStyleClass().contains("carta-seleccionada")) getStyleClass().add("carta-seleccionada");
         }
+        else getStyleClass().remove("carta-seleccionada");
     }
 
-    public int getAncho() {
+    /**
+     * Cambia el color de la carta para que se muestre como una pista
+     * @param pista Booleano que indica si carta es parte de la pista
+     */
+    public void setPista(boolean pista) {
+        if (pista) {
+            if (!getStyleClass().contains("pista-carta")) getStyleClass().add("pista-carta");
+        }
+        else getStyleClass().remove("pista-carta");
+    }
+
+    /**
+     * Getter del Ancho de la carta.
+     * @return Ancho de la carta
+     */
+    public static int getAncho() {
         return ANCHO;
     }
 }

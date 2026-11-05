@@ -14,6 +14,11 @@ public class PanelReserva extends StackPane {
     private CartaGUI carta;
     Button hueco;
 
+    /**
+     * Crea una reserva
+     * @param indice Indice de la reserva a recrear
+     * @param alHacerClic Evento al ahacer click
+     */
     public PanelReserva(int indice, IntConsumer alHacerClic) {
         this.indice = indice;
         this.alHacerClic = alHacerClic;
@@ -23,6 +28,10 @@ public class PanelReserva extends StackPane {
         getChildren().add(crearHueco());
     }
 
+    /**
+     * Metodo que crea un espacio vacio en la reserva
+     * @return Boton que representa una reserva vacia
+     */
     private Button crearHueco() {
         Button hueco = new Button();
         hueco.getStyleClass().add("ranura-carta");
@@ -33,6 +42,10 @@ public class PanelReserva extends StackPane {
         return hueco;
     }
 
+    /**
+     * Redibuja la reserva
+     * @param reserva Reserva a recrear
+     */
     public void actualizar(Reserva reserva) {
         getChildren().clear();
         carta = null;
@@ -47,20 +60,24 @@ public class PanelReserva extends StackPane {
         }
     }
 
+    /**
+     * Cambia el color de la resrva a ser seleccionada
+     * @param seleccionada
+     */
     public void setSeleccionada(boolean seleccionada) {
         if (carta != null) carta.setSeleccionada(seleccionada);
     }
 
+    /**
+     * Cambia el color de la reserva en caso de que se haya pedido pista
+     * @param pista Booleano que indica si se pidió pistas
+     */
     public void setPista(boolean pista) {
         if (carta != null) carta.setPista(pista);
         if (hueco != null) {
             hueco.getStyleClass().remove("ranura-pista");
             if (pista) hueco.getStyleClass().add("ranura-pista");
         }
-    }
-
-    public int getIndice() {
-        return indice;
     }
 
 }

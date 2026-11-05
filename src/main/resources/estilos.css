@@ -91,6 +91,18 @@
     -fx-background-color: #b087f1;
 }
 
+.pista-carta {
+    -fx-border-color: #8BE9FD;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+}
+
+.carta-seleccionada {
+    -fx-border-color: #50FA7BFF;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+}
+
 .mensaje {
     -fx-text-fill: white;
     -fx-font-size: 15px;
